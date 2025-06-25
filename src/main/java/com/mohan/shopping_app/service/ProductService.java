@@ -1,6 +1,8 @@
 package com.mohan.shopping_app.service;
 
+import com.mohan.shopping_app.exception.NoProductsWithName;
 import com.mohan.shopping_app.exception.ProductAlreadyExists;
+import com.mohan.shopping_app.exception.ProductNotFound;
 import com.mohan.shopping_app.model.Product;
 import com.mohan.shopping_app.model.ProductDto;
 import com.mohan.shopping_app.repository.ProductRepository;
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -33,6 +37,23 @@ public class ProductService {
         product.setCreatedAt(LocalDate.now());
         logger.info("Product is added successfully: {}", inProduct.getName());
         return productRepository.save(product);
+    }
+
+    public Product getProductById(UUID uuid){
+        return productRepository.getByProductId(uuid)
+                .orElseThrow(() -> new ProductNotFound("There is no product with UUID: " + uuid.toString()));
+    }
+
+    public List<Product> getAllProducts(){
+        return productRepository.findAll();
+    }
+
+    public List<Product> getByName(String name){
+        List<Product> productsListByName = productRepository.findByNameContainingIgnoreCase(name);
+        if (productsListByName.isEmpty()){
+            throw new NoProductsWithName("There are no products with name " + name + ". Please search with different name or search all products");
+        }
+        return productRepository.findByNameContainingIgnoreCase(name);
     }
 
     private boolean checkIfProductByNameExists(String name){
