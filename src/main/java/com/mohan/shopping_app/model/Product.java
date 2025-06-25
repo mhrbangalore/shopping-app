@@ -21,6 +21,7 @@ public class Product {
     @Column(name = "product_id", updatable = false, nullable = false)
     private UUID productId;
 
+    @Column(unique = true)
     private String name;
 
     private int quantity;
