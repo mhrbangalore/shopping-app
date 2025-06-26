@@ -30,6 +30,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage(ex.getMessage(), HttpStatus.NOT_FOUND.toString(), request.getRequestURI()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ProductNotInStock.class)
+    public ResponseEntity<ErrorMessage> handleProductNotFound(HttpServletRequest request, ProductNotInStock ex){
+        return new ResponseEntity<>(new ErrorMessage(ex.getMessage(), HttpStatus.BAD_REQUEST.toString(), request.getRequestURI()), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleArgInvalidException(HttpServletRequest request, MethodArgumentNotValidException ex){
         Map<String, String> validationErrors = new HashMap<>();

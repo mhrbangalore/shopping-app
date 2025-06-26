@@ -3,6 +3,7 @@ package com.mohan.shopping_app.service;
 import com.mohan.shopping_app.exception.NoProductsWithName;
 import com.mohan.shopping_app.exception.ProductAlreadyExists;
 import com.mohan.shopping_app.exception.ProductNotFound;
+import com.mohan.shopping_app.exception.ProductNotInStock;
 import com.mohan.shopping_app.model.Product;
 import com.mohan.shopping_app.model.ProductDto;
 import com.mohan.shopping_app.repository.ProductRepository;
@@ -54,6 +55,21 @@ public class ProductService {
             throw new NoProductsWithName("There are no products with name " + name + ". Please search with different name or search all products");
         }
         return productRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public Product isProductAvailableAndInStock(UUID productId, int quantity){
+        Product product = productRepository.getByProductId(productId).orElseThrow(() -> new ProductNotFound("Product with id " + productId.toString() + " is not found"));
+        if(product.getQuantity() >= quantity){
+            return product;
+        } else {
+            throw new ProductNotInStock("There are no enough stocks with this product: " + productId.toString());
+        }
+    }
+
+    public void reduceProductQuantity(UUID productId, int quantity){
+        Product product = productRepository.getByProductId(productId).orElseThrow(() -> new ProductNotFound("Product with id " + productId.toString() + " is not found"));
+        product.setQuantity(product.getQuantity() - quantity);
+        productRepository.save(product);
     }
 
     private boolean checkIfProductByNameExists(String name){

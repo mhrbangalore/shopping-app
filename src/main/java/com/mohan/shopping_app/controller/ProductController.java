@@ -37,10 +37,10 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(name = "name", required = false) String name){
         if (name == null) {
             return ResponseEntity.ok(productService.getAllProducts().stream()
-                    .map(product -> new ProductDto(product.getProductId(), product.getName(), product.getQuantity(), product.getPrice(), product.getCreatedAt())).toList());
+                    .map(this::mapToDto).toList());
         } else {
             return ResponseEntity.ok(productService.getByName(name).stream()
-                    .map(product -> new ProductDto(product.getProductId(), product.getName(), product.getQuantity(), product.getPrice(), product.getCreatedAt())).toList());
+                    .map(this::mapToDto).toList());
         }
     }
 
@@ -49,7 +49,11 @@ public class ProductController {
     public ResponseEntity<ProductDto> getProductById(@PathVariable String id){
         UUID uuid = UUID.fromString(id);
         Product product = productService.getProductById(uuid);
-        return new ResponseEntity<>(new ProductDto(product.getProductId(), product.getName(), product.getQuantity(), product.getPrice(), product.getCreatedAt()), HttpStatus.OK);
+        return new ResponseEntity<>(mapToDto(product), HttpStatus.OK);
+    }
+
+    private ProductDto mapToDto(Product product){
+        return new ProductDto(product.getProductId(), product.getName(), product.getQuantity(), product.getPrice(), product.getCreatedAt());
     }
 
 
