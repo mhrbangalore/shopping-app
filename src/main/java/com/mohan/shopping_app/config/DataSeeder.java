@@ -23,8 +23,12 @@ public class DataSeeder {
                 Product p3 = new Product(null, "Sony WH-1000XM5", 30, new BigDecimal("349.99"), LocalDate.now());
                 Product p4 = new Product(null, "Dell XPS 13", 5, new BigDecimal("1249.50"), LocalDate.now());
                 Product p5 = new Product(null, "Apple AirPods Pro", 25, new BigDecimal("249.00"), LocalDate.now());
+                Product p6 = new Product(null, "Apple Macbook Air", 250, new BigDecimal("949.00"), LocalDate.now());
+                Product p7 = new Product(null, "Apple Macbook Pro", 99, new BigDecimal("1249.00"), LocalDate.now());
+                Product p8 = new Product(null, "Dell Monitor 24", 157, new BigDecimal("110.00"), LocalDate.now());
+                Product p9 = new Product(null, "Whirlpool Washing Machine", 259, new BigDecimal("299.00"), LocalDate.now());
 
-                productRepository.saveAll(List.of(p1, p2, p3, p4, p5));
+                productRepository.saveAll(List.of(p1, p2, p3, p4, p5, p6, p7, p8, p9));
 
                 System.out.println("✅ Sample products seeded to H2 database");
             } else {
