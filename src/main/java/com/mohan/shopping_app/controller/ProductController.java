@@ -55,28 +55,4 @@ public class ProductController {
     private ProductDto mapToDto(Product product){
         return new ProductDto(product.getProductId(), product.getName(), product.getQuantity(), product.getPrice(), product.getCreatedAt());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
