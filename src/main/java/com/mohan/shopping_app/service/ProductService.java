@@ -75,28 +75,4 @@ public class ProductService {
     private boolean checkIfProductByNameExists(String name){
         return productRepository.getByName(name).isPresent();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
